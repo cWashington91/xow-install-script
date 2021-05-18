@@ -21,7 +21,9 @@ check_kernel () {
 }
 
 check_systemd () {
-    
+    if [[ (systemd --version | cut -d " " -f 2) -lt 232]]; then
+        echo "Systemd version 232 or higher is needed to install xow"
+    fi
 }
 
 check_curl () {
