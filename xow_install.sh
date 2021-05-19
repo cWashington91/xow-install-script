@@ -26,42 +26,11 @@ check_systemd () {
     fi
 }
 
-check_curl () {
+install_prereqs () {
     if [[ $os == "ubuntu" || $os == "pop" || $os == "debian" ]]; then
-        dpkg --list | grep -s curl
-        if [[ -e curl ]]; then
-            continue
-        else
-            echo "curl is not installed. Installing..."
-            sudo apt update && sudo apt upgrade
-            sudo apt install -y curl
+        sudo apt update && sudo apt install curl cabextract libusb-dev
     fi
 }
-
-check_cabextract () {
-    if [[ $os == "ubuntu" || $os == "pop" || $os == "debian" ]]; then
-        dpkg --list | grep -s cabextract
-        if [[ -e cabextract ]]; then
-            continue
-        else
-            echo "cabextract is not installed. Installing..."
-            sudo apt update && sudo apt upgrade
-            sudo apt install -y cabextract
-    fi
-}
-
-check_libusb () {
-    if [[ $os == "ubuntu" || $os == "pop" || $os == "debian" ]]; then
-        dpkg --list | grep -s libusb
-        if [[ -e libusb ]]; then
-            continue
-        else
-            echo "libusb is not installed. Installing..."
-            sudo apt update && sudo apt upgrade
-            sudo apt install -y libusb-1.0-0-dev
-    fi
-}
-
 
 clone_xow () {
     git clone $XOW_REPO
