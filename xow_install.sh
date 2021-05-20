@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-XOW_REPO = https://github.com/medusalix/xow
+XOW_REPO=https://github.com/medusalix/xow.git
 
 if grep -qs "ubuntu" /etc/os-release; then
     os="ubuntu"
@@ -12,27 +12,28 @@ else [[ -e /etc/fedora-release ]]; then
 	os="fedora"
 fi
 
-check_kernel () {
-    if [[ $(uname -r | cut -d "." -f 1) -lt 4 ]]; then
-        echo "Kernel 4.5 or higher is needed to install xow"
-    else
-        continue
-    fi
-}
+# check_kernel () {
+#     if [[ $(uname -r | cut -d "." -f 1) -lt 4 ]]; then
+#         echo "Kernel 4.5 or higher is needed to install xow"
+#     else
+#         continue
+#     fi
+# }
 
-check_systemd () {
-    if [[ (systemd --version | cut -d " " -f 2) -lt 232]]; then
-        echo "Systemd version 232 or higher is needed to install xow"
-    fi
-}
+# check_systemd () {
+#     if [[ (systemd --version | cut -d " " -f 2) -lt 232 ]]; then
+#         echo "Systemd version 232 or higher is needed to install xow"
+#     fi
+# }
 
 install_prereqs () {
     if [[ $os == "ubuntu" || $os == "pop" || $os == "debian" ]]; then
-        sudo apt update && sudo apt install curl cabextract libusb-dev
+        sudo apt update && sudo apt -y install build-essential curl cabextract libusb-1.0-0-dev
     fi
 }
 
 clone_xow () {
+    cd ..
     git clone $XOW_REPO
 }
 
@@ -58,8 +59,8 @@ optional_reboot () {
     fi
 }
 
-check_kernel
-check_systemd
+# check_kernel
+# check_systemd
 install_prereqs
 clone_xow
 build_xow
