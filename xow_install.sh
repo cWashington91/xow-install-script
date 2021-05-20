@@ -57,3 +57,11 @@ optional_reboot () {
         echo "Please provide a valid response"
     fi
 }
+
+check_kernel
+check_systemd
+install_prereqs
+clone_xow
+build_xow
+install_xow
+optional_reboot
