@@ -4,12 +4,16 @@ XOW_REPO=https://github.com/medusalix/xow.git
 
 if grep -qs "ubuntu" /etc/os-release; then
     os="ubuntu"
-elif [[ -e /etc/os_release ]]; then
+elif [[ -e /etc/os-release ]]; then
 	os="pop"
 elif [[ -e /etc/debian_version ]]; then
 	os="debian"
-else [[ -e /etc/fedora-release ]];
+elif [[ -e /etc/fedora-release ]]; then
 	os="fedora"
+elif [[ -e /etc/os-release ]]; then
+	os="arch"
+else [[ -e /etc/os-release ]];
+	os="manjaro"
 fi
 
 # check_kernel () {
@@ -29,8 +33,10 @@ fi
 install_prereqs () {
     if [[ $os == "ubuntu" || $os == "pop" || $os == "debian" ]]; then
         sudo apt update && sudo apt -y install build-essential curl cabextract libusb-1.0-0-dev
-    else [[ $os == "fedora" ]];
+    elif [[ $os == "fedora" ]]; then
         sudo dnf install -y make automake gcc gcc-c++ kernel-devel curl cabextract libusb-devel
+    else [[ $os == "manjaro" || $os == "arch" ]];
+        sudo pacman -S --noconfirm make curl cabextract libusb-devel
     fi
 }
 
