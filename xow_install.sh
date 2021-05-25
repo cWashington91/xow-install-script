@@ -36,7 +36,7 @@ install_prereqs () {
     elif [[ $os == "fedora" ]]; then
         sudo dnf install -y make automake gcc gcc-c++ kernel-devel curl cabextract libusb-devel
     else [[ $os == "manjaro" || $os == "arch" ]];
-        sudo pacman -S --noconfirm make curl cabextract libusb-devel
+        sudo pacman -S --noconfirm make curl cabextract libusb
     fi
 }
 
