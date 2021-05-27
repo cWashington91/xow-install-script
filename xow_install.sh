@@ -6,14 +6,16 @@ if grep -qs "ubuntu" /etc/os-release; then
     os="ubuntu"
 elif [[ -e /etc/os-release ]]; then
 	os="pop"
-elif [[ -e /etc/debian_version ]]; then
-	os="debian"
-elif [[ -e /etc/fedora-release ]]; then
-	os="fedora"
 elif [[ -e /etc/os-release ]]; then
 	os="arch"
-else [[ -e /etc/os-release ]];
+elif [[ -e /etc/os-release ]]; then
+	os="solus"
+elif [[ -e /etc/os-release ]]; then
 	os="manjaro"
+elif [[ -e /etc/debian_version ]]; then
+	os="debian"
+else [[ -e /etc/fedora-release ]];
+	os="fedora"
 fi
 
 # check_kernel () {
@@ -35,6 +37,8 @@ install_prereqs () {
         sudo apt update && sudo apt -y install build-essential curl cabextract libusb-1.0-0-dev
     elif [[ $os == "fedora" ]]; then
         sudo dnf install -y make automake gcc gcc-c++ kernel-devel curl cabextract libusb-devel
+    elif [[ $os == "solus" ]]; then
+        sudo eopkg install -y -c system.devel curl cabextract libusb-compat-devel
     else [[ $os == "manjaro" || $os == "arch" ]];
         sudo pacman -S --noconfirm make curl cabextract libusb
     fi
@@ -56,10 +60,10 @@ install_xow () {
 }
 
 optional_reboot () {    
-    read -p "Install complete, would you like to reboot now? y|n" reboot
-    if [[ $reboot == y ]]; then
+    read -p "Install complete, would you like to reboot now? (yes|no)" reboot
+    if [[ $reboot == yes ]]; then
         shutdown -r now
-    elif [[ $reboot == n ]]; then
+    elif [[ $reboot == no ]]; then
         exit 0
     else
         echo "Please provide a valid response"
